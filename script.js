@@ -2,9 +2,14 @@ const choices = ["rock", "paper", "scissors"];
 const results = document.querySelector("#results");
 const computer = document.querySelector(".computer");
 const dots = document.querySelectorAll(".dots span");
-console.log(dots.item(0).textContent);
+// console.log(dots.item(0).textContent);
+const overlay = document.querySelector(".overlay");
+const overlay_winner_text = document.querySelector("#winner-text")
+overlay.style.display = 'none';
 
 let rounds = 0;
+let playerPoints = 0;
+let computerPoints = 0;
 
 function replaceChar(origString, replaceChar, index) {
     let firstPart = origString.substr(0, index);
@@ -25,38 +30,50 @@ function getWinner(playerChoice, computerChoice) {
 
     if (playerChoice == "rock") {
         if (computerChoice == "scissors"){
+            playerPoints++;
             return 1; // player wins
         } else { 
+            computerPoints++;
             return -1;// computer wins
         }
     }
 
     if (playerChoice == "paper") {
         if (computerChoice == "rock") {
+            playerPoints++;
             return 1; // player wins
         } else {
+            computerPoints++;
             return -1; // computer wins
         }
     }
 
     if (playerChoice == "scissors") {
         if (computerChoice == "paper") {
+            playerPoints++;
             return 1; // player wins
         } else {
+            computerPoints++;
             return -1; // computer wins
         }
     }
 }
 
-function playRound(event) {
-    if (rounds >= 5) {
-        rounds = 0;
-        dots.forEach(dot => {
-            dot.textContent = "◦";
-            dot.style.color = "black";
-        });
-    }
+function reset() {
+    overlay.style.display = 'none';
+    playerPoints = 0;
+    computerPoints = 0;
+    rounds = 0;
+    dots.forEach(dot => {
+        dot.textContent = "◦";
+        dot.style.color = "black";
+    });
+    computer.querySelector("h2").innerHTML = "";
+    computer.querySelector("img").src = "";
+    results.innerHTML = "";
+}
 
+function playRound(event) {
     const playerChoice = event.currentTarget.getAttribute("id");
     buttons.forEach((button) => {
         button.style.outlineColor = "transparent";
@@ -74,15 +91,26 @@ function playRound(event) {
     } else if (winner == 1) {
         results.style.color = "blue";
         dots.item(rounds).style.color = "blue";
-        results.textContent = "YOU WIN";
+        results.textContent = "PLAYER POINT";
     } else if (winner == -1) {
         results.style.color = "red";
         dots.item(rounds).style.color = "red";
-        results.textContent = "YOU LOSE";
+        results.textContent = "COMPUTER POINT";
     }
     dots.item(rounds).textContent = "•";
     rounds++;
+
+    if (playerPoints == 3 || computerPoints == 3){
+        overlay.style.display = 'flex';
+        if (playerPoints == 3){
+            overlay_winner_text.textContent = "YOU WIN!"
+        } else {
+            overlay_winner_text.textContent = "YOU LOSE"
+        }
+    }
 }
+
+overlay.addEventListener("click", reset)
 
 const buttons = document.querySelectorAll(".buttons button");
 buttons.forEach((button) => {

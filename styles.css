@@ -5,6 +5,23 @@
     flex-wrap: wrap;
 }
 
+.overlay {
+    position: fixed;
+    display: none;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(65, 65, 65, 0.8);
+    z-index: 1000;
+}
+
+.overlay-text {
+    color: white;
+    font-size: xx-large;
+    margin: auto;
+}
+
 body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     text-align: center;

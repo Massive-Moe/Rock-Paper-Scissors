@@ -2,7 +2,6 @@ const choices = ["rock", "paper", "scissors"];
 const results = document.querySelector("#results");
 const computer = document.querySelector(".computer");
 const dots = document.querySelectorAll(".dots span");
-// console.log(dots.item(0).textContent);
 const overlay = document.querySelector(".overlay");
 const overlay_winner_text = document.querySelector("#winner-text")
 overlay.style.display = 'none';
@@ -68,9 +67,8 @@ function reset() {
         dot.textContent = "◦";
         dot.style.color = "black";
     });
-    computer.querySelector("h2").innerHTML = "";
-    computer.querySelector("img").src = "";
-    results.innerHTML = "";
+    computer.style.visibility = 'hidden';
+    results.style.visibility = 'hidden';
 }
 
 function playRound(event) {
@@ -79,7 +77,11 @@ function playRound(event) {
         button.style.outlineColor = "transparent";
     });
     event.currentTarget.style.outlineColor = "lightblue";
+
+    computer.style.visibility = 'visible';
+    results.style.visibility = 'visible';
     const computerChoice = choices[getRandomInt(3)];
+    // Capitalize first letter of text
     computer.querySelector("h2").textContent = `Computer chooses: ${replaceChar(computerChoice, computerChoice[0].toUpperCase(), 0)}`;
     computer.querySelector("img").src = `resources/${computerChoice}.webp`;
     
@@ -101,17 +103,19 @@ function playRound(event) {
     rounds++;
 
     if (playerPoints == 3 || computerPoints == 3){
+        // Make overlay visible
         overlay.style.display = 'flex';
         if (playerPoints == 3){
             overlay_winner_text.textContent = "YOU WIN!"
         } else {
-            overlay_winner_text.textContent = "YOU LOSE"
+            overlay_winner_text.textContent = "YOU LOSE!"
         }
     }
 }
 
-overlay.addEventListener("click", reset)
+reset()
 
+overlay.addEventListener("click", reset)
 const buttons = document.querySelectorAll(".buttons button");
 buttons.forEach((button) => {
     button.addEventListener("click", playRound);

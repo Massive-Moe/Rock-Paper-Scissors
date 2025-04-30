@@ -105,7 +105,7 @@ function playRound(event) {
     if (playerPoints == 3 || computerPoints == 3){
         // Make overlay visible
         overlay.style.display = 'flex';
-        if (playerPoints == 3){
+        if (playerPoints == 3) {
             overlay_winner_text.textContent = "YOU WIN!"
         } else {
             overlay_winner_text.textContent = "YOU LOSE!"
